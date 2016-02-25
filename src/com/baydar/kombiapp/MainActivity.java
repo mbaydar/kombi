@@ -1,12 +1,16 @@
 package com.baydar.kombiapp;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -70,9 +74,21 @@ public class MainActivity extends Activity {
 	}
 
 	public void loadFile() throws IOException {
+		File folder = new File(
+				Environment.getExternalStorageDirectory() + File.separator + "KombiApp" + File.separator + "kombi.txt");
+		BufferedReader br = null;
+		if (folder.exists()) {
+			File sdcard = Environment.getExternalStorageDirectory();
+			File file = new File(sdcard, "KombiApp" + File.separator + "kombi.txt");
+			br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "Cp1252"));
+		} else {
+			br = new BufferedReader(new InputStreamReader(getAssets().open("kombi.txt"), "Cp1252"));
+		}
+
 		String text = null;
 
-		BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open("kombi.txt"),"Cp1252"));
+		// BufferedReader br = new BufferedReader(new
+		// InputStreamReader(getAssets().open("kombi.txt"), "Cp1252"));
 		// BufferedReader br = new BufferedReader(new FileReader(fileName));
 		try {
 			StringBuilder sb = new StringBuilder();
